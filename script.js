@@ -50,6 +50,7 @@ function addACourse(){
   if (grade < 1.0 && grade > 4.0){
     return NaN;
   }
+  
   // Create the new course with values from the form, push it into array of courses.
   var newCourse = {
     name: this.elements["name"].value,
