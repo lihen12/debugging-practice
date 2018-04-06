@@ -34,16 +34,22 @@ window.onload = function(){
 // clears content in form fields, prints courseList objects to the page.
 // BUGFIX: This function isn't working properly- nothing gets output to the list on form submit
 function addACourse(){
+  event.preventDefault();
+  
   var grade = parseFloat(this.elements["grade"].value);
   /*
     TODO: validate that "grade" value is a number between 1.0 and 4.0, stop processing if it is not.
-
+    
     Checking 'grade typeof "number"' will always return true because we called parseFloat.
     We must instead check that it's value is not NaN.
 
     REVIEW: could we make it doubly safe by adding an HTML validation as well?
   */
-
+  console.log("grade: ", grade);
+  
+  if (grade < 1.0 && grade > 4.0){
+    return NaN;
+  }
   // Create the new course with values from the form, push it into array of courses.
   var newCourse = {
     name: this.elements["name"].value,
@@ -51,7 +57,8 @@ function addACourse(){
   }
 
   courseList.push(newCourse)
-
+  console.log("courseList: ", courseList);
+  
   clearFormFields()
   outputList()
 }
@@ -89,6 +96,17 @@ function clearData(){
 // Prints courseList objects to the page in a readable way.
 function outputList(){
   var list = document.getElementById("course-list");
+  list.innerHTML = ""
+  
+  for(var i = 0; i < courseList.length; i++){
+    console.log("name: ", courseList[i].name, "grade: ", courseList[i].grade)
+    
+    var newLi = document.createElement("li")
+    
+    newLi.innerHTML = "name: " + courseList[i].name + " grade: " + courseList[i].grade;
+    
+    list.appendChild(newLi);
+  }
   /*
     TODO: Clear the existing contents of the "list" element. Then, for each object in courseList,
     create an li element that holds the course's name and grade, and append
